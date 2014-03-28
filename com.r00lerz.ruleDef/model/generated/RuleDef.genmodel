@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.r00lerz.ruleDef/src-gen" editDirectory="/com.r00lerz.ruleDef.edit/src"
+    editorDirectory="/com.r00lerz.ruleDef.editor/src" modelPluginID="com.r00lerz.ruleDef"
+    forceOverwrite="true" modelName="RuleDef" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="com.r00lerz.ruleDef.edit"
+    editorPluginID="com.r00lerz.ruleDef.editor" runtimeVersion="2.9">
+  <genPackages prefix="RuleDef" basePackage="com.r00lerz.ruleDef" disposableProviderFactory="true"
+      fileExtensions="rdef" ecorePackage="RuleDef.ecore#/">
+    <genClasses ecoreClass="RuleDef.ecore#//BusinessRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/lhs_value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/rhs_value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/rhs_value2"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//Value"/>
+    <genClasses ecoreClass="RuleDef.ecore#//DynamicValue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//DynamicValue/entity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//DynamicValue/attribute"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//Attribute/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//Entity/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//StaticValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//StaticValue/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//Operator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//Operator/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//CompareOperator"/>
+    <genClasses ecoreClass="RuleDef.ecore#//EqualsOperator"/>
+    <genClasses ecoreClass="RuleDef.ecore#//BiggerSmallerOperator"/>
+    <genClasses ecoreClass="RuleDef.ecore#//SpecialCompareOperator"/>
+    <genClasses ecoreClass="RuleDef.ecore#//ListOperator"/>
+    <genClasses ecoreClass="RuleDef.ecore#//RegexOperator"/>
+  </genPackages>
+</genmodel:GenModel>

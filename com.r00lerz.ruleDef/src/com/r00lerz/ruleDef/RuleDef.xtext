@@ -1,0 +1,56 @@
+grammar com.r00lerz.ruleDef.RuleDef with org.eclipse.xtext.common.Terminals
+
+generate ruleDef "http://www.r00lerz.com/ruleDefLang/RuleDef"
+
+BusinessRule:
+	lhs_value = DynamicValue ' ' operator = Operator ' ' rhs_value = Value (' and ' rhs_value2= Value)?
+;
+	
+Value:
+	StaticValue |  DynamicValue
+;
+
+DynamicValue:
+	entity = Entity'.' attribute = Attribute
+;
+
+Attribute:
+	name=ID
+;
+
+Entity:
+	name=ID
+;
+
+StaticValue:
+	name=INT
+;
+
+Operator:
+	CompareOperator | SpecialCompareOperator | ListOperator | RegexOperator
+;
+
+CompareOperator:
+	EqualsOperator | BiggerSmallerOperator
+;
+
+EqualsOperator:
+	name = ("must be equal to" | "may not be equal to")	
+;
+
+BiggerSmallerOperator:
+	name = ("must be smaller or equal to" | "must be bigger or equal to" | "must be bigger than" | "must be smaller than")
+;
+
+SpecialCompareOperator:
+	name = ("must be between" | "may not be between")
+;
+
+
+ListOperator:
+	name = ("may only be" | "may not be")
+;
+
+RegexOperator:
+	name = ("must match")
+;

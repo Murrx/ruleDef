@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ruleDef" nsURI="http://www.r00lerz.com/ruleDefLang/RuleDef"
+    nsPrefix="ruleDef">
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs_value" eType="#//DynamicValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//Operator"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs_value" eType="#//Value"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs_value2" eType="#//Value"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DynamicValue" eSuperTypes="#//Value">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="#//Entity"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticValue" eSuperTypes="#//Value">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompareOperator" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualsOperator" eSuperTypes="#//CompareOperator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BiggerSmallerOperator" eSuperTypes="#//CompareOperator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialCompareOperator" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ListOperator" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegexOperator" eSuperTypes="#//Operator"/>
+</ecore:EPackage>
