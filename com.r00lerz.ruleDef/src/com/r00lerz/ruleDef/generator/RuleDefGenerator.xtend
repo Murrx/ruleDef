@@ -23,9 +23,8 @@ class RuleDefGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
 		for(e: resource.allContents.toIterable.filter(BusinessRule)) {
-			fsa.generateFile(
-			"generatedcode.sql",
-			e.compile)		
+			fsa.generateFile("generatedcode.sql",e.compile)
+			fsa.generateFile("ruletype.txt",e.generateRuleType)		
 		}
 	}
 	
@@ -93,6 +92,15 @@ class RuleDefGenerator implements IGenerator {
     	//Entity abbreviation
     	//Implement rule type retrieval for other rule types
     	//dynamic numbering*/
+    }
+    
+    def generateRuleType(BusinessRule r){
+    	switch r{
+    		case r.attributeRangeRule : "Attribute Range Rule"
+    		case r.attributeCompareRule : "Attribute Compare Rule"
+    		case r.tupleCompareRule : "Tuple Compare Rule"
+    		default : "ERROR"
+    	}
     }
     
     def isAttributeRangeRule(BusinessRule r){
