@@ -29,7 +29,6 @@ class RuleDefGenerator implements IGenerator {
 	}
 	
 	def compile(BusinessRule r){ '''
-    	-evaluates business rule «r.generateName»
     	DECLARE
     		l_passed boolean := true;
     	BEGIN
@@ -76,22 +75,6 @@ class RuleDefGenerator implements IGenerator {
     }
     def dispatch operatorToString(RegexOperator operator){
     	//TODO implement
-    }
-    
-    def generateName(BusinessRule r){
-    	"BRG_APPNAME_"+r.lhs_value.entity.name.substring(0,3).toUpperCase+"_TRG_" +
-    	switch r{
-    		case r.attributeRangeRule : "ARR"
-    		case r.attributeCompareRule : "ACR"
-    		case r.tupleCompareRule : "TCR"
-    		default : "ERROR"
-    	} +
-    	"_01"
-    	/*TODO:
-    	//DYNAMIC APP NAME
-    	//Entity abbreviation
-    	//Implement rule type retrieval for other rule types
-    	//dynamic numbering*/
     }
     
     def generateRuleType(BusinessRule r){
