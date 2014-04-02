@@ -35,7 +35,7 @@ CompareOperator:
 ;
 
 EqualsOperator:
-	name = ("must be equal to" | "may not be equal to")	
+	name = ("must be equal to" | "must not be equal to")	
 ;
 
 BiggerSmallerOperator:
@@ -43,14 +43,14 @@ BiggerSmallerOperator:
 ;
 
 SpecialCompareOperator:
-	name = ("must be between" | "may not be between")
+	name = ("must be between" | "must not be between")
 ;
 
 
 ListOperator:
-	name = ("may only be" | "may not be")
+	name = ("must be in" | "must not be in")
 ;
 
 RegexOperator:
-	name = ("must match")
+	name = ("must match" | "must not match")
 ;
