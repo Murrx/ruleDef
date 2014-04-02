@@ -23,14 +23,12 @@ class RuleDefGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
 		for(e: resource.allContents.toIterable.filter(BusinessRule)) {
-			fsa.generateFile(
-			"generatedcode.sql",
-			e.compile)		
+			fsa.generateFile("generatedcode.sql",e.compile)
+			fsa.generateFile("ruletype.txt",e.generateRuleType)		
 		}
 	}
 	
 	def compile(BusinessRule r){ '''
-    	-evaluates business rule «r.generateName»
     	DECLARE
     		l_passed boolean := true;
     	BEGIN
@@ -79,20 +77,13 @@ class RuleDefGenerator implements IGenerator {
     	//TODO implement
     }
     
-    def generateName(BusinessRule r){
-    	"BRG_APPNAME_"+r.lhs_value.entity.name.substring(0,3).toUpperCase+"_TRG_" +
+    def generateRuleType(BusinessRule r){
     	switch r{
-    		case r.attributeRangeRule : "ARR"
-    		case r.attributeCompareRule : "ACR"
-    		case r.tupleCompareRule : "TCR"
+    		case r.attributeRangeRule : "Attribute Range Rule"
+    		case r.attributeCompareRule : "Attribute Compare Rule"
+    		case r.tupleCompareRule : "Tuple Compare Rule"
     		default : "ERROR"
-    	} +
-    	"_01"
-    	/*TODO:
-    	//DYNAMIC APP NAME
-    	//Entity abbreviation
-    	//Implement rule type retrieval for other rule types
-    	//dynamic numbering*/
+    	}
     }
     
     def isAttributeRangeRule(BusinessRule r){

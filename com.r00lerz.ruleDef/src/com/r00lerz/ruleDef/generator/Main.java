@@ -28,7 +28,7 @@ public class Main {
 		}
 		Injector injector = new com.r00lerz.ruleDef.RuleDefStandaloneSetup().createInjectorAndDoEMFRegistration();
 		Main main = injector.getInstance(Main.class);
-		main.runGenerator(args[0]);
+		main.runGenerator(args[0], args[1]);
 	}
 	
 	@Inject 
@@ -43,11 +43,10 @@ public class Main {
 	@Inject 
 	private JavaIoFileSystemAccess fileAccess;
 
-	protected void runGenerator(String string) {
+	public void runGenerator(String inputPath, String outputPath) {
 		// load the resource
 		ResourceSet set = resourceSetProvider.get();
-		Resource resource = set.getResource(URI.createURI(string), true);
-		
+		Resource resource = set.getResource(URI.createFileURI(inputPath), true);
 		// validate the resource
 		List<Issue> list = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 		if (!list.isEmpty()) {
@@ -58,7 +57,8 @@ public class Main {
 		}
 		
 		// configure and start the generator
-		fileAccess.setOutputPath("src-gen/");
+		
+		fileAccess.setOutputPath(outputPath + "src-gen/");
 		generator.doGenerate(resource, fileAccess);
 		
 		System.out.println("Code generation finished.");
