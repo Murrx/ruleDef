@@ -46,9 +46,8 @@ SpecialCompareOperator:
 	name = ("must be between" | "must not be between")
 ;
 
-
 ListOperator:
-	name = ("must be in" | "must not be in")
+	name = ("must be in" | "may not be in")
 ;
 
 RegexOperator:
