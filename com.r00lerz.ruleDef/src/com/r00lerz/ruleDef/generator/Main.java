@@ -3,6 +3,7 @@
  */
 package com.r00lerz.ruleDef.generator;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -18,6 +19,7 @@ import org.eclipse.xtext.validation.Issue;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.r00lerz.ruleDef.RuleDefException;
 
 public class Main {
 	
@@ -28,7 +30,13 @@ public class Main {
 		}
 		Injector injector = new com.r00lerz.ruleDef.RuleDefStandaloneSetup().createInjectorAndDoEMFRegistration();
 		Main main = injector.getInstance(Main.class);
-		main.runGenerator(args[0], args[1]);
+		try {
+			main.runGenerator(args[0]);
+		} catch (RuleDefException e) {
+			for(Issue issue : e.getIssues()){
+				System.err.println(issue);
+			}
+		}
 	}
 	
 	@Inject 
@@ -43,22 +51,19 @@ public class Main {
 	@Inject 
 	private JavaIoFileSystemAccess fileAccess;
 
-	public void runGenerator(String inputPath, String outputPath) {
+	public void runGenerator(String workPath) throws RuleDefException {
 		// load the resource
 		ResourceSet set = resourceSetProvider.get();
-		Resource resource = set.getResource(URI.createFileURI(inputPath), true);
+		Resource resource = set.getResource(URI.createFileURI(workPath+File.separator+"input.rdef"), true);
 		// validate the resource
 		List<Issue> list = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 		if (!list.isEmpty()) {
-			for (Issue issue : list) {
-				System.err.println(issue);
-			}
-			return;
+			throw new RuleDefException(list);
 		}
 		
 		// configure and start the generator
 		
-		fileAccess.setOutputPath(outputPath + "src-gen/");
+		fileAccess.setOutputPath(workPath);
 		generator.doGenerate(resource, fileAccess);
 		
 		System.out.println("Code generation finished.");
