@@ -65,7 +65,5 @@ public class Main {
 		
 		fileAccess.setOutputPath(workPath);
 		generator.doGenerate(resource, fileAccess);
-		
-		System.out.println("Code generation finished.");
 	}
 }
