@@ -26,7 +26,7 @@ class RuleDefGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (e : resource.allContents.toIterable.filter(typeof(RuleSet))) {
 			fsa.generateFile("generatedcode.sql", compile(e, checkCommands("<trigger>", e.commands)));
-			if (checkCommands("<trigger>", e.commands)) {
+			if (!checkCommands("<trigger>", e.commands)) {
 				fsa.generateFile("ruletype.txt", e.ruleset.get(0).generateRuleType);
 			}
 		}
