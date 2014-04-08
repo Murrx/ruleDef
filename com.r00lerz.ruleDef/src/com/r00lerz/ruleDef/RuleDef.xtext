@@ -3,20 +3,16 @@ grammar com.r00lerz.ruleDef.RuleDef with org.eclipse.xtext.common.Terminals
 generate ruleDef "http://www.r00lerz.com/ruleDefLang/RuleDef"
 
 RuleSet:
-	(commands += Command*)?
+	(ruleSetData = RuleSetData)?
 	ruleset += BusinessRule*
 ;
 
 BusinessRule:
-	lhs_value = DynamicValue ' ' operator = Operator ' ' rhs_value = Value (' and ' rhs_value2= Value)? (' ${NAME:' name = Name'}')?
+	lhs_value = DynamicValue (' ')* operator = Operator (' ')* rhs_value = Value ((' ')* 'and' (' ')* rhs_value2= Value (' ')*)? (' ')* ('${NAME:' (' ')* name = ID'}')?
 ;
 
-Command:
-	name = "<trigger>"
-;
-
-Name:
-	name=ID
+RuleSetData:
+	'${ENTITYNAME:' (' ')* entityName = ID (' ')* 'RESULTSETNAME:' (' ')* resultSetName = ID '}'
 ;
 	
 Value:

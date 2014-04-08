@@ -7,14 +7,13 @@ import com.r00lerz.ruleDef.ruleDef.DynamicValue
 import com.r00lerz.ruleDef.ruleDef.EqualsOperator
 import com.r00lerz.ruleDef.ruleDef.ListOperator
 import com.r00lerz.ruleDef.ruleDef.RegexOperator
+import com.r00lerz.ruleDef.ruleDef.RuleSet
 import com.r00lerz.ruleDef.ruleDef.SpecialCompareOperator
 import com.r00lerz.ruleDef.ruleDef.StaticValue
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import com.r00lerz.ruleDef.ruleDef.RuleSet
-import com.r00lerz.ruleDef.ruleDef.Command
-import org.eclipse.emf.common.util.EList
+import com.r00lerz.ruleDef.ruleDef.RuleSetData
 
 /**
  * Generates code from your model files on save.
@@ -25,28 +24,28 @@ class RuleDefGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (e : resource.allContents.toIterable.filter(typeof(RuleSet))) {
-			fsa.generateFile("generatedcode.sql", compile(e, checkCommands("<trigger>", e.commands)));
-			if (!checkCommands("<trigger>", e.commands)) {
+			fsa.generateFile("generatedcode.sql", compile(e, e.ruleSetData));
+			if (e.ruleSetData == null) {
 				fsa.generateFile("ruletype.txt", e.ruleset.get(0).generateRuleType);
 			}
 		}
 	}
 
-	def compile(RuleSet r, boolean generateTrigger) {
+	def compile(RuleSet r, RuleSetData rsd) {
 		'''
-			«IF generateTrigger»«generateHeader»«ENDIF»
+			«IF rsd != null»«generateHeader(rsd)»«ENDIF»
 				«FOR BusinessRule rule : r.ruleset»
 					«rule.generateRuleBlock»
 				«ENDFOR»
-			«IF generateTrigger»«generateFooter»«ENDIF»
+			«IF rsd != null»«generateFooter(rsd)»«ENDIF»
 		'''
 	}
 
-	def generateHeader() {
+	def generateHeader(RuleSetData rsd) {
 		'''
-    		CREATE OR REPLACE TRIGGER <triggernamehere>
+    		CREATE OR REPLACE TRIGGER «rsd.resultSetName»
     			BEFORE DELETE OR INSERT OR UPDATE
-    			ON <tablenamehere>
+    			ON «rsd.entityName»
     			FOR EACH ROW
     		DECLARE
     			l_oper			varchar2(3);
@@ -63,18 +62,18 @@ class RuleDefGenerator implements IGenerator {
     	'''
 	}
 
-	def generateFooter() {
+	def generateFooter(RuleSetData rsd) {
 		'''
     			IF l_error_stack IS NOT NULL THEN
     				raise_application_error(-20800, l_error_stack);
     			END IF
-    		END <triggernamehere>
+    		END «rsd.resultSetName»;
     	'''
 	}
 
 	def generateRuleBlock(BusinessRule r) {
 		'''
-			«IF r.name != null»--Evaluates: «r.name.name»«ENDIF»
+			«IF r.name != null»--Evaluates: «r.name»«ENDIF»
 			DECLARE
 				l_passed boolean := true;
 			BEGIN
@@ -150,14 +149,5 @@ class RuleDefGenerator implements IGenerator {
 	def isTupleCompareRule(BusinessRule r) {
 		r.rhs_value instanceof DynamicValue && r.lhs_value.entity.name == (r.rhs_value as DynamicValue).entity.name &&
 			r.operator instanceof CompareOperator
-	}
-
-	def checkCommands(String command, EList<Command> commands) {
-		for (Command c : commands) {
-			if (c.name == command) {
-				return true
-			}
-		}
-		return false
 	}
 }
