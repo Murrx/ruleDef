@@ -32,7 +32,15 @@ Entity:
 ;
 
 StaticValue:
-	name=INT
+	NumericValue | StringValue
+;
+
+NumericValue:
+	name = INT	
+;
+
+StringValue:
+	name = ID
 ;
 
 Operator:
@@ -44,7 +52,7 @@ CompareOperator:
 ;
 
 EqualsOperator:
-	name = ("must be equal to" | "must not be equal to")	
+	name = ("must be equal to" | "may not be equal to")	
 ;
 
 BiggerSmallerOperator:
@@ -52,7 +60,7 @@ BiggerSmallerOperator:
 ;
 
 SpecialCompareOperator:
-	name = ("must be between" | "must not be between")
+	name = ("must be between" | "may not be between")
 ;
 
 ListOperator:

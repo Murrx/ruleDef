@@ -7,11 +7,20 @@
     editorPluginID="com.r00lerz.ruleDef.editor" runtimeVersion="2.9">
   <genPackages prefix="RuleDef" basePackage="com.r00lerz.ruleDef" disposableProviderFactory="true"
       fileExtensions="rdef" ecorePackage="RuleDef.ecore#/">
+    <genClasses ecoreClass="RuleDef.ecore#//RuleSet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//RuleSet/ruleSetData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//RuleSet/ruleset"/>
+    </genClasses>
     <genClasses ecoreClass="RuleDef.ecore#//BusinessRule">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/lhs_value"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/operator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/rhs_value"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleDef.ecore#//BusinessRule/rhs_value2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//BusinessRule/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//RuleSetData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//RuleSetData/entityName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//RuleSetData/resultSetName"/>
     </genClasses>
     <genClasses ecoreClass="RuleDef.ecore#//Value"/>
     <genClasses ecoreClass="RuleDef.ecore#//DynamicValue">
@@ -24,8 +33,12 @@
     <genClasses ecoreClass="RuleDef.ecore#//Entity">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//Entity/name"/>
     </genClasses>
-    <genClasses ecoreClass="RuleDef.ecore#//StaticValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//StaticValue/name"/>
+    <genClasses ecoreClass="RuleDef.ecore#//StaticValue"/>
+    <genClasses ecoreClass="RuleDef.ecore#//NumericValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//NumericValue/name"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleDef.ecore#//StringValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//StringValue/name"/>
     </genClasses>
     <genClasses ecoreClass="RuleDef.ecore#//Operator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleDef.ecore#//Operator/name"/>

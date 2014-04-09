@@ -2,6 +2,12 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ruleDef" nsURI="http://www.r00lerz.com/ruleDefLang/RuleDef"
     nsPrefix="ruleDef">
+  <eClassifiers xsi:type="ecore:EClass" name="RuleSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleSetData" eType="#//RuleSetData"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleset" upperBound="-1"
+        eType="#//BusinessRule" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessRule">
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs_value" eType="#//DynamicValue"
         containment="true"/>
@@ -11,6 +17,11 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs_value2" eType="#//Value"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleSetData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resultSetName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Value"/>
   <eClassifiers xsi:type="ecore:EClass" name="DynamicValue" eSuperTypes="#//Value">
@@ -25,8 +36,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="Entity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StaticValue" eSuperTypes="#//Value">
+  <eClassifiers xsi:type="ecore:EClass" name="StaticValue" eSuperTypes="#//Value"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NumericValue" eSuperTypes="#//StaticValue">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringValue" eSuperTypes="#//StaticValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

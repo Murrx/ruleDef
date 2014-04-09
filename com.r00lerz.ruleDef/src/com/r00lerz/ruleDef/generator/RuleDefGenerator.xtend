@@ -6,14 +6,17 @@ import com.r00lerz.ruleDef.ruleDef.CompareOperator
 import com.r00lerz.ruleDef.ruleDef.DynamicValue
 import com.r00lerz.ruleDef.ruleDef.EqualsOperator
 import com.r00lerz.ruleDef.ruleDef.ListOperator
+import com.r00lerz.ruleDef.ruleDef.NumericValue
 import com.r00lerz.ruleDef.ruleDef.RegexOperator
 import com.r00lerz.ruleDef.ruleDef.RuleSet
+import com.r00lerz.ruleDef.ruleDef.RuleSetData
 import com.r00lerz.ruleDef.ruleDef.SpecialCompareOperator
 import com.r00lerz.ruleDef.ruleDef.StaticValue
+import com.r00lerz.ruleDef.ruleDef.StringValue
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import com.r00lerz.ruleDef.ruleDef.RuleSetData
+import com.r00lerz.ruleDef.ruleDef.Value
 
 /**
  * Generates code from your model files on save.
@@ -45,7 +48,7 @@ class RuleDefGenerator implements IGenerator {
 		'''
     		CREATE OR REPLACE TRIGGER «rsd.resultSetName»
     			BEFORE DELETE OR INSERT OR UPDATE
-    			ON «rsd.entityName»
+    			ON "«rsd.entityName»"
     			FOR EACH ROW
     		DECLARE
     			l_oper			varchar2(3);
@@ -66,7 +69,7 @@ class RuleDefGenerator implements IGenerator {
 		'''
     			IF l_error_stack IS NOT NULL THEN
     				raise_application_error(-20800, l_error_stack);
-    			END IF
+    			END IF;
     		END «rsd.resultSetName»;
     	'''
 	}
@@ -77,24 +80,39 @@ class RuleDefGenerator implements IGenerator {
 			DECLARE
 				l_passed boolean := true;
 			BEGIN
-				IF l_oper in ('INS', 'UPD')THEN --shoulde be replaced with dynamic code later.
-					l_passed := :new.«r.lhs_value.attribute.name» «r.operator.operatorToString» «r.rhs_value.valueToString»«IF r.
-				rhs_value2 != null» AND «r.rhs_value2.valueToString»«ENDIF»;
+				IF l_oper in ('INS', 'UPD')THEN
+					l_passed := «r.lhs_value.printValue» «r.operator.operatorToString» «r.rhs_value.printValue»«IF r.rhs_value2 != null» AND «r.rhs_value2.printValue»«ENDIF»;
 					IF NOT l_passed THEN
-						l_error_stack := l_error_stack || '«r.lhs_value.valueToString» «r.operator.name» «r.rhs_value.valueToString»«IF r.
-				rhs_value2 != null» and «r.rhs_value2.valueToString»«ENDIF».';
+						l_error_stack := l_error_stack || '«r.lhs_value.valueToString» «r.operator.name» «r.rhs_value.valueToString»«IF r.rhs_value2 != null» and «r.rhs_value2.valueToString»«ENDIF».';
 					END IF;
 				END IF;
 			END;
 		'''
 	}
+	
+	def printValue(Value value){
+		if (value instanceof StringValue){
+			value.quoteValue
+		}else if (value instanceof DynamicValue){
+			":new."+value.attribute.name
+		}else{
+			value.valueToString
+		}
+	}
 
+	def quoteValue(Value value){
+		"'" + value.valueToString + "'"
+	}
+	
 	def dispatch valueToString(DynamicValue dynamicValue) {
 		dynamicValue.entity.name + "." + dynamicValue.attribute.name
 	}
 
-	def dispatch valueToString(StaticValue staticValue) {
-		staticValue.name
+	def dispatch valueToString(NumericValue numericValue) {
+		numericValue.name
+	}
+	def dispatch valueToString(StringValue stringValue) {
+		stringValue.name
 	}
 
 	def dispatch operatorToString(BiggerSmallerOperator operator) {
@@ -136,7 +154,6 @@ class RuleDefGenerator implements IGenerator {
 			default: "ERROR"
 		}
 	}
-
 	def isAttributeRangeRule(BusinessRule r) {
 		r.operator instanceof SpecialCompareOperator
 	}
